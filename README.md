@@ -1,70 +1,166 @@
-# Getting Started with Create React App
+# BuddyTalk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A real-time video chat application built with React and LiveKit.
 
-## Available Scripts
+> **Note**: This application uses the setup scripts to fix OpenSSL issues with Node.js v17+ 
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- Real-time audio and video communication
+- Simple room-based collaboration
+- User authentication with LiveKit tokens
+- Clean and intuitive UI
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js (v14 or later)
+- npm (v6 or later)
+- A LiveKit account and project (for API key and secret)
 
-### `npm test`
+## Project Structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+buddytalk-web/
+├── public/              # Static assets
+├── server/              # Express server for token generation
+│   ├── index.js         # Server entry point
+│   ├── package.json     # Server dependencies
+│   └── .env             # Environment variables (not committed)
+└── src/                 # React application
+    ├── App.js           # Main application component
+    ├── App.css          # Application styles
+    └── ...              # Other React files
+```
 
-### `npm run build`
+## Setup Instructions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Option 1: Using setup scripts (Recommended)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+We've provided setup scripts that handle all dependencies and fix common issues:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**For Unix/Mac users:**
+```bash
+cd buddytalk-web
+chmod +x setup.sh  # Make the script executable
+./setup.sh
+```
 
-### `npm run eject`
+**For Windows users:**
+```cmd
+cd buddytalk-web
+setup.bat
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Option 2: Manual setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Step 1: Install client dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd buddytalk-web
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Step 2: Configure the server
 
-## Learn More
+1. Navigate to the server directory:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd server
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Create a `.env` file in the server directory with your LiveKit credentials:
 
-### Code Splitting
+```
+PORT=4000
+LIVEKIT_API_KEY=your_livekit_api_key
+LIVEKIT_API_SECRET=your_livekit_api_secret
+LIVEKIT_URL=wss://your-livekit-server.livekit.cloud
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Replace the placeholders with your actual LiveKit credentials.
 
-### Analyzing the Bundle Size
+### Step 3: Update the client configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+In `src/App.js`, update the LiveKit server URL:
 
-### Making a Progressive Web App
+```javascript
+setUrl('wss://your-livekit-server.livekit.cloud');
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Replace with your actual LiveKit server URL.
 
-### Advanced Configuration
+## Running the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Start the token server
 
-### Deployment
+```bash
+cd server
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This will start the token server on port 4000.
 
-### `npm run build` fails to minify
+### Start the React application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In a new terminal:
+
+```bash
+cd buddytalk-web
+npm start
+```
+
+## Troubleshooting
+
+### OpenSSL Error
+
+If you encounter this error with Node.js v17 or higher:
+```
+Error: error:0308010C:digital envelope routines::unsupported
+```
+
+This is because Node.js v17+ uses OpenSSL 3, which has removed support for some legacy algorithms. We've already modified the npm scripts to handle this, but if you're running the application in a different way, you can:
+
+1. Use the `NODE_OPTIONS=--openssl-legacy-provider` environment variable:
+   ```bash
+   NODE_OPTIONS=--openssl-legacy-provider node your-script.js
+   ```
+
+2. Or downgrade to Node.js v16.x which uses OpenSSL 1.1.1
+
+This will start the React development server on port 3000.
+
+Open your browser and navigate to http://localhost:3000 to use the application.
+
+## Usage
+
+1. Enter a room name and your display name
+2. Click "Join Room" to enter the video conference
+3. Grant camera and microphone permissions when prompted
+4. Enjoy your video chat!
+
+## Deployment
+
+### Client deployment
+
+Build the React application for production:
+
+```bash
+npm run build
+```
+
+The production-ready files will be in the `build` directory.
+
+### Server deployment
+
+Deploy the Express server to a Node.js hosting service of your choice. Make sure to set the environment variables.
+
+## Getting a LiveKit Account
+
+1. Sign up at [LiveKit Cloud](https://cloud.livekit.io)
+2. Create a new project
+3. Get your API key and secret from the project dashboard
+
+## License
+
+MIT

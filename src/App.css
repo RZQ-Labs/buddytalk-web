@@ -1,38 +1,120 @@
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* LiveKit component styles */
+:root {
+  --lk-control-bar-height: 80px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.lk-video-conference {
+  height: 100%;
+}
+
+.lk-participant {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.lk-participant:hover {
+  border-color: #2f80ed;
+}
+
+.lk-participant-name {
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+
+.lk-control-bar {
+  background-color: #2f2f2f;
+  padding: 8px 0;
+}
+
+.lk-button {
+  background-color: #2f80ed;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.lk-button:hover {
+  background-color: #1c68d3;
+}
+
+.lk-camera-off, .lk-mic-off {
+  background-color: #e74c3c;
+}
+
+.lk-camera-off:hover, .lk-mic-off:hover {
+  background-color: #c0392b;
+}
+
+/* Form styles */
+form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #2f80ed;
   color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #1c68d3;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2 {
+  color: #2f80ed;
+  margin-bottom: 10px;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
 }
